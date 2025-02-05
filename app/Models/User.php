@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function registArticle($data) {
+        // 登録処理
+        DB::table('articles')->insert([
+            'title' => $data->title,
+            'url' => $data->url,
+            'comment' => $data->comment,
+        ]);
+    }
 }

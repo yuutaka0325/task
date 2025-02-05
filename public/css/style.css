@@ -1,0 +1,46 @@
+.delete{
+    color:white;
+    background-color:red;
+}
+
+.create{
+    background-color:coral;
+}
+.move{
+    background-color: aqua;
+}
+
+.button{
+    display: flex;
+    
+}
+.button button{
+    margin-right: 10px;
+    margin-left: 20px;
+    border-radius:5px;
+    border: none;
+}
+
+table td {
+    background: #eee;
+  }
+table tr:nth-child(odd) td {
+    background: #fff;
+  }
+
+.box{
+    border: 2px solid #aaa;
+    }
+label {
+        display: inline-block;
+        width: 100px;
+        vertical-align: top;
+        height: 40px;
+        margin-left: 20px;
+        }
+.detail-box{
+    margin-left: 20px;
+}
+td{
+    margin-left: 20px;
+}

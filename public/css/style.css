@@ -1,13 +1,19 @@
 .delete{
     color:white;
     background-color:red;
+    border-radius:5px;
+    border: none;
 }
 
 .create{
     background-color:coral;
+    border-radius:5px;
+    border: none;
 }
 .move{
     background-color: aqua;
+    border-radius:5px;
+    border: none;
 }
 
 .button{
@@ -21,8 +27,9 @@
     border: none;
 }
 
-table td {
+.list{
     background: #eee;
+   
   }
 table tr:nth-child(odd) td {
     background: #fff;
@@ -30,17 +37,24 @@ table tr:nth-child(odd) td {
 
 .box{
     border: 2px solid #aaa;
+    width:60%;
+    padding-top: 20px;
     }
+.list-box{
+    border: 2px solid #aaa;
+    width:65%;
+
+}    
 label {
-        display: inline-block;
-        width: 100px;
-        vertical-align: top;
-        height: 40px;
-        margin-left: 20px;
-        }
+    display: inline-block;
+    width: 100px;
+    vertical-align: top;
+    height: 40px;
+    margin-left: 20px;
+}
 .detail-box{
     margin-left: 20px;
 }
-td{
+.card-body{
     margin-left: 20px;
 }

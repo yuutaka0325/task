@@ -24,7 +24,7 @@
    
     <input type="submit" value="検索">
     </form>
-    <div class="box">
+    <div class="list-box">
   <table>
      <thead>
         <tr>
@@ -41,15 +41,15 @@
             
         </tr>
     </thead>
-    <tbody>
+    <tbody  class="list">
     @foreach ($products as $product)
         <tr>
-            <td>{{ $product->id }}</td>
-            <td><img src="{{ asset($product->img_path) }}" width="30"></td>
-            <td>{{ $product->product_name }}</td>
-            <td>{{ $product->price }}</td>
-            <td>{{ $product->stock }}</td>
-            <td>{{ $product->company->company_name }}</td>
+            <td class="list">{{ $product->id }}</td>
+            <td class="list"><img src="{{ asset($product->img_path) }}" width="30"></td>
+            <td class="list">{{ $product->product_name }}</td>
+            <td class="list">¥{{ $product->price }}</td>
+            <td class="list">{{ $product->stock }}</td>
+            <td class="list">{{ $product->company->company_name }}</td>
             <td><button onclick="location.href='{{ route('detail', ['id'=>$product->id]) }}'" class="move">詳細</button></td>
             <td>
                 <form method="POST" action="{{ route('destroy', ['id'=>$product->id]) }}">

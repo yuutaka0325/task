@@ -29,7 +29,7 @@
 <label for="comment">コメント</label><textarea id="comment" name="comment">{{ $product->comment }}"</textarea>
     </div>
 <div class="form-area">
-<label for="img_path">商品画像</label><img src="{{ asset($product->img_path) }}" width="100">
+<label for="img_path">商品画像</label><img src="{{ asset($product->img_path) }}" width="30">
     <input type="file" id="img_path" name="img_path">
     </div>
     <div class="button">

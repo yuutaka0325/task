@@ -16,7 +16,7 @@ class Company extends Model
     public function getList() {
         // companiesテーブルからデータを取得
         $companies = DB::table('companies')
-       // ->join('products', 'products.company_id', '=', 'companies.id')
+       
     ->select('companies.*')
    
     ->get();

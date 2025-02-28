@@ -43,9 +43,10 @@ class User extends Authenticatable
     ];
     public function registArticle($data) {
         // 登録処理
-        DB::table('articles')->insert([
-            'title' => $data->title,
-            'url' => $data->url,
+        DB::table('products')->insert([
+            'company_name' => $data->company_name,
+            'price' => $data->price,
+            'stock' => $data->stock,
             'comment' => $data->comment,
         ]);
     }

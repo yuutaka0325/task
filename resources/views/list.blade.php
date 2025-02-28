@@ -49,13 +49,14 @@
             <td class="list">{{ $product->product_name }}</td>
             <td class="list">¥{{ $product->price }}</td>
             <td class="list">{{ $product->stock }}</td>
-            <td class="list">{{ $product->company->company_name }}</td>
+            <td class="list">{{ $product->company_name }}</td>
             <td><button onclick="location.href='{{ route('detail', ['id'=>$product->id]) }}'" class="move">詳細</button></td>
             <td>
                 <form method="POST" action="{{ route('destroy', ['id'=>$product->id]) }}">
                 @csrf
                 
-                <button type="submit" class="btn btn-danger delete">削除</button>
+                <button type="submit" class="btn btn-danger delete" onclick='return confirm("本当に削除しますか？")'>削除</button>
+
                 </form>
             </td>
             

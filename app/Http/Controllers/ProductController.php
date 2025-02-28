@@ -15,22 +15,17 @@ class ProductController extends Controller
     public function index(Request $request) {
         // インスタンス生成
         $model = new Company();
-        /* テーブルから全てのレコードを取得する */
+        /* プルダウン */
         $companies = $model->getList();
          
         $keyword = $request->input('keyword');
         $company = $request->input('company_name');
+
+        $productModel = new Product();
+        /* プルダウン */
+        $products = $productModel->getList($keyword,$company);
          
-        $query = Product::query();
-
-        if(!empty($keyword)) {
-            $query->where('product_name', 'LIKE', "%{$keyword}%");
-            }
-        if(!empty($company)) {
-                $query->where('company_id', $company);
-            }    
-
-        $products = $query->get();
+        
         return view('list', ['products' => $products,'companies' => $companies]);    
     }  //
     
@@ -50,42 +45,14 @@ class ProductController extends Controller
         $companies = $model->getList();
         return view('create',['companies' => $companies]);
     }  // //
-    public function store(Request $request) 
-    // フォームから送られたデータを$requestに代入して引数として渡している
-    {
-        // リクエストされた情報を確認して、必要な情報が全て揃っているかチェックします。
-        // ->validate()メソッドは送信されたリクエストデータが特定の条件を満たしていることを確認します。
-        $request->validate([
-            'product_name' => 'required', 
-            'company_id' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
-            'comment' => 'nullable', 
-            'img_path' => 'nullable|image|max:2048',
-        ]);
-
-        // リクエストに画像が含まれている場合、その画像を保存します。
-        if($request->hasFile('img_path')){ 
-            $filename = $request->img_path->getClientOriginalName();
-            $filePath = $request->img_path->storeAs('products', $filename, 'public');
-            $product->img_path = '/storage/' . $filePath;
-        }
-        
-        // 作成したデータベースに新しいレコードとして保存します。
-        $product->save();
-
-        // 全ての処理が終わったら、商品一覧画面に戻ります。
-        return redirect('products');
-    }
-
-
+    
     public function registSubmit(ProductRequest $request) {
         
         // トランザクション開始
         DB::beginTransaction();
     
         try {
-                //①画像ファイルの取得
+        //①画像ファイルの取得
         $image = $request->file('img_path');
         
         //②画像ファイルのファイル名を取得
@@ -110,28 +77,45 @@ class ProductController extends Controller
         // 処理が完了したらregistにリダイレクト
         return redirect(route('index'));
     }
-    public function update(Request $request,$id)
+    public function update(ProductRequest $request,$id)
     {
-        // リクエストされた情報を確認して、必要な情報が全て揃っているかチェックします。
-        $request->validate([
-            'product_name' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
-        ]);
+        
+        // トランザクション開始
+        DB::beginTransaction();
+    
+        try {
+            //①画像ファイルの取得
+               $image = $request->file('img_path');
+            
+            //②画像ファイルのファイル名を取得
+               $file_name = $image->getClientOriginalName();
+               
+               
+            //③storage/app/public/imagesフォルダ内に、取得したファイル名で保存
+               $image->storeAs('public/images', $file_name);
+               
+            //④データベース登録用に、ファイルパスを作成
+               $image_path = 'storage/images/' . $file_name;
        
-        //バリデーションによりフォームに未入力項目があればエラーメッセー発生させる（未入力です　など）
         //データベースから商品の情報を取り出す。
         $model = new Product();
         $product = $model->find($id);
         // 商品の情報を更新します。
         $product->product_name = $request->product_name;
-        //productモデルのproduct_nameをフォームから送られたproduct_nameの値に書き換える
+        //productモデルのproduct_nameをフォームから送られたproduct_nameの値に書き換える。
         $product->price = $request->price;
         $product->stock = $request->stock;
+        $product->img_path = $image_path;
 
-        // 更新した商品を保存します。
+        // 更新した商品。
         $product->save();
-        // モデルインスタンスである$productに対して行われた変更をデータベースに保存するためのメソッド（機能）です。
+        // モデルインスタンスである$productに対して行われた変更をデータベースに保存。
+        DB::commit();
+        } catch (\Exception $e) {
+            
+         DB::rollback();
+            return back();
+        }
 
         // 全ての処理が終わったら、商品一覧画面に戻ります。
         return redirect()->route('index')
@@ -141,14 +125,25 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        // Booksテーブルから指定のIDのレコード1件を取得
-        $product = Product::find($id);
-        // レコードを削除
-        $product->delete();
+         // トランザクション開始
+         DB::beginTransaction();
+    
+         try {
+            // Booksテーブルから指定のIDのレコード1件を取得
+            $product = Product::find($id);
+            // レコードを削除
+            $product->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            
+        DB::rollback();
+           return back();
+       }
         // 削除したら一覧画面にリダイレクト
         return redirect()->route('index');
+        
     }
-
+    
     
 }
 

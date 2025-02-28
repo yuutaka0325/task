@@ -20,24 +20,36 @@
 <form method="POST" action="{{ route('submit') }}" enctype="multipart/form-data">
 @csrf
 
-<div class="form-area">
-<label for="product_name">商品名</label><input type="text" name="product_name" required>
-</div>
+    <div class="form-area">
+    <label for="product_name">商品名</label><input type="text" name="product_name" value="{{ old('product_name') }}">
+    @if($errors->has('product_name'))
+        <p>{{ $errors->first('product_name') }}</p>
+    @endif
+    </div>
 
-<div class="form-area">
-<label for="company_name">メーカー</label><select name="company_name" required>
-</div>
+    <div class="form-area">
+    <label for="company_name">メーカー</label><select name="company_name" value="{{ old('company_name') }}">
+    @if($errors->has('company_name'))
+     <p>{{ $errors->first('company_name') }}</p>
+    @endif
+    </div>
     @foreach ($companies as $company)
     <option value="{{ $company->id }}">{{ $company->company_name }}</option>   
     @endforeach
     </select>
 
     <div class="form-area">
-    <label for="price">価格</label><input type="text" name="price" required>
+    <label for="price">価格</label><input type="text" name="price" value="{{ old('price') }}">
+    @if($errors->has('price'))
+    <p>{{ $errors->first('price') }}</p>
+    @endif
     </div>
 
     <div class="form-area">
-    <label for="stock">在庫数</label><input type="text" name="stock" required>
+    <label for="stock">在庫数</label><input type="text" name="stock" value="{{ old('stock') }}">
+    @if($errors->has('stock'))
+    <p>{{ $errors->first('stock') }}</p>
+    @endif
     </div>
 
     <div class="form-area">
@@ -45,7 +57,7 @@
     </div>
 
     <div class="form-area">
-    <label for="img_path">商品画像</label><input type="file" name="img_path">
+    <label for="img_path">商品画像</label><input type="file" name="img_path" >
     </div>
     
     <div class="button">

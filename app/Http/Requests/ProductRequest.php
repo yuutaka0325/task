@@ -29,7 +29,7 @@ class ProductRequest extends FormRequest
             'company_name' => 'required',
             'price' => 'required | numeric',
             'stock' => 'required | integer',
-            'comment' => 'string',
+            
             
         ];
     }
@@ -51,7 +51,7 @@ class ProductRequest extends FormRequest
             'company_name.required' => ':attributeは必須項目です。',
             'price.required' => ':attributeは必須項目です。',
             'stock.required' => ':attributeは必須項目です。',
-            //'comment.max' => ':attributeは:max字以内で入力してください。',
+            
         ];
     }
     

@@ -67,8 +67,6 @@
                             </div>
                             <div class="col-md-8 offset-md-4">
                             <button type="button" onclick="location.href='{{ route('register') }}'" class="register">新規登録</button> 
-                            <button onclick="location.href='{{ route('register') }}'" class="register">新規登録</button> 
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">新規登録</a>
                             </div>
                         </div>
                     </form>

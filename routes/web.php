@@ -30,6 +30,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/index', [App\Http\Controllers\ProductController::class, 'index'])->name('index');
+Route::get('/search', [App\Http\Controllers\ProductController::class, 'search'])->name('search');
 Route::get('/detail/{id}', [App\Http\Controllers\ProductController::class, 'detail'])->name('detail');
 Route::get('/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit'])->name('edit');
 Route::post('/update/{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('update');

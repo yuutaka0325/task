@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class Product extends Model
 {
+    use Sortable;
     use HasFactory;
+    
 
     protected $fillable = [
         'product_name',
@@ -19,23 +22,47 @@ class Product extends Model
         'img_path',
     ];
 
-    public function getList($keyword,$company) {
+    public $sortable = ['id','product_name','price','stock','company_name'];//(ソートに使うカラムを追記
+
+    public function getList($keyword,$company,$min_price,$max_price,$min_stock,$max_stock) {
         // productsテーブルからデータを取得
         
         $query = DB::table('products')
+
         ->join('companies', 'products.company_id', '=', 'companies.id')
     ->select('products.*', 'companies.company_name as company_name');
     //商品名が入っていたら
     if(!empty($keyword)){
         //productsテーブルから、product_nameにkeywordが含まれているデータを取得する
         $query->where('product_name', 'LIKE', "%{$keyword}%");
+
     }
     //会社IDが入っていたら
     if(!empty($company)){
         //productsテーブルから、company_idが会社IDのデータを取得する
         $query->where('company_id', $company);
-
     }
+    //商品名が入っていたら
+    if(!empty($min_price)){
+       
+        $query->where('price','>=', $min_price);
+    }
+    //商品名が入っていたら
+    if(!empty($max_price)){
+        
+        $query->where('price','<=',$max_price);
+    }
+    //商品名が入っていたら
+    if(!empty($min_stock)){
+        
+        $query->where('stock','>=',$min_stock);
+    }
+    //商品名が入っていたら
+    if(!empty($max_stock)){
+        
+        $query->where('stock','<=',$max_stock);
+    }
+
     $products = $query->get();
     
         return $products;
@@ -88,5 +115,15 @@ class Product extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function getListAll() {
+        // 詳細からデータを取得
+        $products = DB::table('products')
+        ->join('companies', 'products.company_id', '=', 'companies.id')
+    ->select('products.*', 'companies.company_name as company_name')
+    ->get();
+
+        return $products;
     }
 }

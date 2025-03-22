@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SaleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+//http://localhost:8888/task/public/api/purchase
+Route::post('/purchase', [App\Http\Controllers\SaleController::class, 'purchase']);

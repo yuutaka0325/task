@@ -13,7 +13,38 @@ class ProductController extends Controller
 {
     
     public function index(Request $request) {
+        //$posts = Product::sortable(); //sortable() を先に宣言
+        //$posts = Product::sortable()->paginate(10);
+    
         // インスタンス生成
+        $model = new Company();
+        /* プルダウン */
+        $companies = $model->getList();
+
+        $productModel = new Product();
+        /* プルダウン */
+        $products = $productModel->getListAll();
+        $products = Product::sortable()->paginate(10);
+    
+         
+        return view('list', ['products' => $products,'companies' => $companies,]);
+        //'posts' => $posts
+    }  //
+    public function search(Request $request) {
+        /*Log::info('リクエスト情報', [
+
+            'URL' => $request->fullUrl(),
+    
+            'Method' => $request->method(),
+    
+            'Headers' => $request->headers->all(),
+    
+            'Body' => $request->all(),
+    
+        ]);*/
+        try {
+
+            // インスタンス生成
         $model = new Company();
         /* プルダウン */
         $companies = $model->getList();
@@ -21,12 +52,33 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
         $company = $request->input('company_name');
 
+        $min_price=$request->input('kagenprice');
+        $max_price=$request->input('jougenprice');
+        $min_stock=$request->input('kagenstock');
+        $max_stock=$request->input('jougenstock');
+
         $productModel = new Product();
         /* プルダウン */
-        $products = $productModel->getList($keyword,$company);
-         
+        $products = $productModel->getList($keyword,$company,$min_price,$max_price,$min_stock,$max_stock);
         
-        return view('list', ['products' => $products,'companies' => $companies]);    
+        } catch (\Exception $e) {
+        
+            Log::error('エラー発生', [
+        
+                'message' => $e->getMessage(),
+        
+                'file' => $e->getFile(),
+        
+                'line' => $e->getLine(),
+        
+                'trace' => $e->getTraceAsString(),
+        
+            ]);
+        
+        }
+        
+        
+        return response()->json($products);    
     }  //
     
     public function detail($id) {

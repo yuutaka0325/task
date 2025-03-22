@@ -31,6 +31,7 @@ class ProductRequest extends FormRequest
             'stock' => 'required | integer',
             
             
+            
         ];
     }
 

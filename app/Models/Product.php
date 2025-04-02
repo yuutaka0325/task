@@ -24,9 +24,9 @@ class Product extends Model
 
     public $sortable = ['id','product_name','price','stock','company_name'];//(ソートに使うカラムを追記
 
+    //mod 20250330 $sortColumn = 'id', $sortOrder ='desc'を引数に追加
     public function getList($keyword,$company,$min_price,$max_price,$min_stock,$max_stock) {
         // productsテーブルからデータを取得
-        
         $query = DB::table('products')
 
         ->join('companies', 'products.company_id', '=', 'companies.id')
@@ -62,7 +62,10 @@ class Product extends Model
         
         $query->where('stock','<=',$max_stock);
     }
-
+    //mod 20250330 orderByメソッドを追加
+    //orderByメソッドは指定したカラムでクエリ結果をソートします。
+    
+    
     $products = $query->get();
     
         return $products;

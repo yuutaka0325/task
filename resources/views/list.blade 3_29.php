@@ -49,16 +49,15 @@
         </form>
     </div>
     <div class="list-box">
-        
-        <table id="list-table"><?php // mod 20250329 id="list-table"を追加 ?>
+        <table>
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>商品画像</th>
-                    <th>商品名</th>
-                    <th>価格</th>
-                    <th>在庫数</th>
-                    <th>メーカー名</th>
+                    <th>@sortablelink('id', 'ID', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
+                    <th>@sortablelink('img_path', '商品画像', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
+                    <th>@sortablelink('product_name', '商品名', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
+                    <th>@sortablelink('price', '価格', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
+                    <th>@sortablelink('stock', '在庫数', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
+                    <th>@sortablelink('comapnay_name', 'メーカー名', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
                     <th><button onclick="location.href='{{ route('create') }}'" class="create">新規登録</button></th>
                 </tr>
             </thead>

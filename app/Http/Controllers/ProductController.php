@@ -23,15 +23,19 @@ class ProductController extends Controller
 
         $productModel = new Product();
         /* プルダウン */
-        $products = $productModel->getListAll();
-        $products = Product::sortable()->paginate(10);
+        //$products = $productModel->getListAll();
+        //$productSortable =  $products->sortable()->paginate(10)->appends($request->query());
+        // ソート & ページネーション + 検索パラメータ維持
+        $query = Product::query();
+        $products = $query->paginate(10)->appends($request->query());
+
+        //$request ->session() ->put(['keyword' => $keywords,'company' => $company]);
     
-         
-        return view('list', ['products' => $products,'companies' => $companies,]);
+         return view('list', ['products' => $products,'companies' => $companies,]);
         //'posts' => $posts
     }  //
     public function search(Request $request) {
-        /*Log::info('リクエスト情報', [
+        Log::info('リクエスト情報', [
 
             'URL' => $request->fullUrl(),
     
@@ -41,7 +45,7 @@ class ProductController extends Controller
     
             'Body' => $request->all(),
     
-        ]);*/
+        ]);
         try {
 
             // インスタンス生成
@@ -51,15 +55,23 @@ class ProductController extends Controller
          
         $keyword = $request->input('keyword');
         $company = $request->input('company_name');
+        //dd($company);
 
         $min_price=$request->input('kagenprice');
         $max_price=$request->input('jougenprice');
         $min_stock=$request->input('kagenstock');
         $max_stock=$request->input('jougenstock');
+        //mod $sortColumn,$sortOrderを追加20250330
+        //$sortColumn=$request->input('sort', 'id');
+        //$sortOrder=$request->input('order', 'desc');
 
         $productModel = new Product();
         /* プルダウン */
+        //mod $sortColumn,$sortOrderを追加20250330
         $products = $productModel->getList($keyword,$company,$min_price,$max_price,$min_stock,$max_stock);
+        //$products->values();
+
+        
         
         } catch (\Exception $e) {
         
@@ -199,3 +211,4 @@ class ProductController extends Controller
     
 }
 
+                    

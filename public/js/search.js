@@ -1,16 +1,54 @@
-$(function(){
-    $("#search-btn").on("click",function(e){
-        e.preventDefault();
+    // let currentSort = '';
+    // let currentDirection = '';
+
+    $(function(){
+        $("#search-btn").on("click",function(e){
+            console.log("テスト");
+            e.preventDefault();
+            // mod 20250401 tablesorter ソートの実行を記述
+            $('#list-table').tablesorter({
+                headers: {
+                   1: { sorter: false },
+                   6: { sorter: false },
+                   
+                }
+        });
+            doSearch();
+            
+        });
+        // ソートリンククリック時も Ajax 検索
+
+        // $(document).on("click", ".sort-link", function(e){
+
+        //     e.preventDefault();
+
+        //     currentSort = $(this).data("sort");
+        //     currentDirection = $(this).data("direction");
+
+        //     doSearch(); // 再検索
+
+        // });
+    });
+
+    function doSearch(){
         console.log("click");
-        let formdata=$("#search-form").serialize();
+        //let formdata=$("#search-form").serialize();20250329 検証の為コメントアウト
+        let formdata=$("#search-form");
+        //formdata.push({ name: "sort", value: currentSort });
+        //formdata.push({ name: "direction", value: currentDirection });
+        formdata = formdata.serialize();//文字列化
         console.log("ajax_start");
 
         $.ajax({
             type:"GET",
             url:'search',
             data:formdata,
+                //sort: currentSort,  // ソートするカラム
+                //direction: currentDirection  // ソートの方向
+            
             dataType: 'json',
             success: function(response) {
+                let html = '';
 
                 console.log("Success:", response);
         
@@ -50,7 +88,7 @@ $(function(){
                         <td><button onclick="location.href='/detail/{id}'" class="move">詳細</button></td>
                         <td>
                             <form method="POST" action="'/destroy/{id}'">
-                            @csrf
+                            
                                 
                             <button type="submit" class="btn btn-danger delete" onclick='return confirm("本当に削除しますか？")'>削除</button>
 
@@ -66,9 +104,9 @@ $(function(){
         )
         //失敗した時
         .fail(function(xhr, status, error) {
-        console.log(xhr);
-        console.log(status);
-        console.log(error);
+            console.log(xhr);
+            console.log(status);
+            console.log(error);
 
         })
         //終了した時
@@ -78,11 +116,11 @@ $(function(){
             // 通信完了時の処理
         });
 
-    });  
+    }
         
         
         
 
 
-});
+
        

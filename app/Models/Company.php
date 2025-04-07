@@ -13,13 +13,14 @@ class Company extends Model
 {
     use HasFactory;
 
-    public function getList() {
+    public function getList()
+    {
         // companiesテーブルからデータを取得
         $companies = DB::table('companies')
-       
-    ->select('companies.*')
-   
-    ->get();
+
+            ->select('companies.*')
+
+            ->get();
 
         return $companies;
     }
@@ -32,8 +33,8 @@ class Company extends Model
         ];
     }
     public function products()
-{
-    return $this->hasMany(Product::class);
-}
-    
+    {
+        return $this->hasMany(Product::class);
+    }
+
 }

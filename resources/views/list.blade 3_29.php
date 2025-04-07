@@ -6,63 +6,57 @@
 
 <div class="container">
     <h1 class="">商品一覧画面</h1>
-    
-    <div class="search"> 
+
+    <div class="search">
         <form action="{{ route('index') }}" method="GET" id="search-form">
             @csrf
             <input type="text" name="keyword" class="form-control" placeholder="商品名" value="{{ request('$keyword') }}">
             <select name="company_name" required>
                 @foreach ($companies as $company)
-                    <option value="{{ $company->id }}">{{ $company->company_name }}</option>   
+                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
                 @endforeach
             </select>
-        <div class="price_search">
-            <label for="price">{{ __('価格') }}</label>
+            <div class="price_search">
+                <label for="price">{{ __('価格') }}</label>
 
-            <div class="jougen">
-                <p>{{ __('上限') }}</p>
-                <input type="number" name="jougenprice" id="jougenprice" >
-            </div>
+                <div class="stock.serach">
+                    <label for="stock">{{ __('在庫数') }}</label>
 
-            <div class="kagen">
-                <p>{{ __('下限') }}</p>
-                <input type="number" name="kagenprice" id="kagenprice" >
-            </div>
+                    <div class="jougen">
+                        <p>{{ __('上限') }}</p>
+                        <input type="number" name="jougenstock" id="jougenstock">
+                    </div>
 
-        </div>
+                    <div class="kagen">
+                        <p>{{ __('下限') }}</p>
+                        <input type="number" name="kagenstock" id="kagenstock">
+                    </div>
 
-        <div class="stock.serach">
-            <label for="stock">{{ __('在庫数') }}</label>
-
-            <div class="jougen">
-                <p>{{ __('上限') }}</p>
-                <input type="number" name="jougenstock" id="jougenstock" >
-            </div>
-
-            <div class="kagen">
-                <p>{{ __('下限') }}</p>
-                <input type="number" name="kagenstock" id="kagenstock" >
-            </div>
-
-        </div>
-            <input type="submit" value="検索" id="search-btn">
+                </div>
+                <input type="submit" value="検索" id="search-btn">
         </form>
     </div>
     <div class="list-box">
         <table>
             <thead>
                 <tr>
-                    <th>@sortablelink('id', 'ID', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
-                    <th>@sortablelink('img_path', '商品画像', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
-                    <th>@sortablelink('product_name', '商品名', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
-                    <th>@sortablelink('price', '価格', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
-                    <th>@sortablelink('stock', '在庫数', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
-                    <th>@sortablelink('comapnay_name', 'メーカー名', request()->except('sort', 'direction', 'page'),['class' => 'sort-link'])</th>
+                    <th>@sortablelink('id', 'ID', request()->except('sort', 'direction', 'page'),['class' =>
+                        'sort-link'])</th>
+                    <th>@sortablelink('img_path', '商品画像', request()->except('sort', 'direction', 'page'),['class' =>
+                        'sort-link'])</th>
+                    <th>@sortablelink('product_name', '商品名', request()->except('sort', 'direction', 'page'),['class' =>
+                        'sort-link'])</th>
+                    <th>@sortablelink('price', '価格', request()->except('sort', 'direction', 'page'),['class' =>
+                        'sort-link'])</th>
+                    <th>@sortablelink('stock', '在庫数', request()->except('sort', 'direction', 'page'),['class' =>
+                        'sort-link'])</th>
+                    <th>@sortablelink('comapnay_name', 'メーカー名', request()->except('sort', 'direction', 'page'),['class'
+                        => 'sort-link'])</th>
                     <th><button onclick="location.href='{{ route('create') }}'" class="create">新規登録</button></th>
                 </tr>
             </thead>
-            
-             <tbody  class="list">
+
+            <tbody class="list">
                 @foreach ($products as $product)
                 <tr>
                     <td class="list">{{ $product->id }}</td>
@@ -71,23 +65,25 @@
                     <td class="list">¥{{ $product->price }}</td>
                     <td class="list">{{ $product->stock }}</td>
                     <td class="list">{{ $product->company->company_name }}</td>
-                    <td><button onclick="location.href='{{ route('detail', ['id'=>$product->id]) }}'" class="move">詳細</button></td>
+                    <td><button onclick="location.href='{{ route('detail', ['id'=>$product->id]) }}'"
+                            class="move">詳細</button></td>
                     <td>
                         <form method="POST" action="{{ route('destroy', ['id'=>$product->id]) }}">
-                        @csrf
-                        
-                        <button type="submit" class="btn btn-danger delete" onclick='return confirm("本当に削除しますか？")'>削除</button>
+                            @csrf
+
+                            <button type="submit" class="btn btn-danger delete"
+                                onclick='return confirm("本当に削除しますか？")'>削除</button>
 
                         </form>
                     </td>
-            
 
-            
+
+
 
                 </tr>
-                    @endforeach
-             </tbody>
-  </table>
-</div> 
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection

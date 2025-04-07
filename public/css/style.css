@@ -1,50 +1,55 @@
-.delete{
-    color:white;
-    background-color:red;
-    border-radius:5px;
+.delete {
+    color: white;
+    background-color: red;
+    border-radius: 5px;
     border: none;
 }
 
-.create{
-    background-color:coral;
-    border-radius:5px;
+.create {
+    background-color: coral;
+    border-radius: 5px;
     border: none;
 }
-.move{
+
+.move {
     background-color: aqua;
-    border-radius:5px;
+    border-radius: 5px;
     border: none;
 }
 
-.button{
+.button {
     display: flex;
-    
+
 }
-.button button{
+
+.button button {
     margin-right: 10px;
     margin-left: 20px;
-    border-radius:5px;
+    border-radius: 5px;
     border: none;
 }
 
-.list{
+.list {
     background: #eee;
-   
-  }
+
+}
+
 table tr:nth-child(odd) td {
     background: #fff;
-  }
+}
 
-.box{
+.box {
     border: 2px solid #aaa;
-    width:60%;
+    width: 60%;
     padding-top: 20px;
-    }
-.list-box{
-    border: 2px solid #aaa;
-    width:70%;
+}
 
-}    
+.list-box {
+    border: 2px solid #aaa;
+    width: 70%;
+
+}
+
 label {
     display: inline-block;
     width: 100px;
@@ -52,9 +57,11 @@ label {
     height: 40px;
     margin-left: 20px;
 }
-.detail-box{
+
+.detail-box {
     margin-left: 20px;
 }
-.card-body{
+
+.card-body {
     margin-left: 20px;
 }

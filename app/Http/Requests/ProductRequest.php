@@ -29,9 +29,9 @@ class ProductRequest extends FormRequest
             'company_name' => 'required',
             'price' => 'required | numeric',
             'stock' => 'required | integer',
-            
-            
-            
+
+
+
         ];
     }
 
@@ -43,17 +43,18 @@ class ProductRequest extends FormRequest
             'price' => '価格',
             'stock' => '在庫数',
             'comment' => 'コメント',
-            
+
         ];
     }
-    public function messages() {
+    public function messages()
+    {
         return [
             'product_name.required' => ':attributeは必須項目です。',
             'company_name.required' => ':attributeは必須項目です。',
             'price.required' => ':attributeは必須項目です。',
             'stock.required' => ':attributeは必須項目です。',
-            
+
         ];
     }
-    
+
 }

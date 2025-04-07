@@ -1,38 +1,44 @@
-$(function() {
-                
-    //削除ボタンに"btn-danger"クラスを設定しているため、ボタンが押された場合に開始されます
-                 $('.delete').on('click', function(e) {
-                  //e.preventDefault();
-                  console.log("ajax_start");
-                  var deleteConfirm = confirm('削除してよろしいでしょうか？');
-   //　メッセージをOKした時（true)の場合、次に進みます 
-                  if(deleteConfirm == true) {
-                    var clickEle = $(this)
-   //$(this)は自身（今回は押されたボタンのinputタグ)を参照します
-   //　"clickEle"に対して、inputタグの設定が全て代入されます
-   
-                         var userID = clickEle.attr('data-user_id');
-    //attr()」は、HTML要素の属性を取得したり設定することができるメソッドです
-    //今回はinputタグの"data-user_id"という属性の値を取得します
-    //"data-user_id"にはレコードの"id"が設定されているので
-    // 削除するレコードを指定するためのidの値をここで取得します
-   
-    // .ajaxメソッドでルーティングを通じて、コントローラへ非同期通信を行います。
-   //見本ではレコードを削除するコントローラへ通信を送るためにはweb.phpを参照すると
-   //通信方法は"post"に設定し、URL（送信先）を'/destroy/{id}'にする必要があります
-                    
-                            
-                 $.ajax({
-                    type: 'POST',
-                    url: '/destroy/'+productID, //userID にはレコードのIDが代入されています
-                    dataType: 'json',
-                    data: {'id':productID},
-                             })
-   //”削除しても良いですか”のメッセージで”いいえ”を選択すると次に進み処理がキャンセルされます
-               } else {
-                       (function(e) {
-                         e.preventDefault()
-                       });
-               };
-         });
-   });
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+  }
+});
+function deleteEvent() {
+  $('.delete').on('click', function (e) {
+    console.log("ajax_start");
+    e.preventDefault();
+    var deleteConfirm = confirm('削除してよろしいでしょうか？');
+
+    if (deleteConfirm == true) {
+      var clickEle = $(this)
+      var destroyID = clickEle.attr('data-product_id');
+
+      $.ajax({
+        type: 'POST',
+        url: 'destroy/' + destroyID,
+        dataType: 'json',
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: { 'id': destroyID },
+      })
+        .done(function () {
+          clickEle.parents('tr').remove();
+          doSearch();
+        })
+
+        .fail(function () {
+          alert('エラー');
+        });
+
+    } else {
+      (function (e) {
+        e.preventDefault()
+      });
+    };
+  });
+}
+
+$(function () {
+  deleteEvent();
+});
